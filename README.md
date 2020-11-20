@@ -274,6 +274,46 @@ scrape_in_parallel(
     -   **default: scrape_linkedin.utils.HEADLESS_OPTIONS**
 -   _\*\*kwargs_ **`{any}`**: extra keyword arguments to pass to the `scraper_type` constructor for each job
 
+## Deploy via Docker
+
+This project creates a small dockerized REST API around the scrapeli program.
+
+At the moment, the following functionnalities are exposed via REST :
+ * scrap a linkedin profile via username
+ * scrap a linkedin profile via url
+
+### How to use this image
+
+This image contains the main binaries for the linkedin scrapper. It requires the LI_AT cookie that can be passed as an environnement variable.
+
+```
+docker run --rm -it <NameOfTheImage> \
+  --env LI_AT=AQEDAQzZQt0Dm3BeAAABdbbSwNQAAAF2BAsix04AhtA7a6ihL0IcaYSVOOcMSL-teAHhLzGlnzTK4MH1T-nPaxdAcUQDHCK6ENW5s51Sq3OWEmxud6mnldbUEVcBBeBxRa0z_LBF6hA2znjw8K0uHdXe
+```
+
+### Examples 
+
+* Request a profile by username
+
+```
+curl -v -X POST http://<server>:5057/scrap -d '{"typeoftask": "username", "name": "<user>"}' 
+```
+e.g.:
+```
+curl -v -X POST http://127.0.0.1:5057/scrap -d '{"typeoftask": "username", "name": "austinoboyle"}' 
+```
+
+* Request a profile by url
+
+```
+curl -v -X POST http://<server>:5057/scrap -d '{"typeoftask": "userurl", "name": "<user>"}' 
+```
+e.g.:
+```
+curl -v -X POST http://127.0.0.1:5057/scrap -d '{"typeoftask": "userurl", "name": "https://www.linkedin.com/in/austinoboyle/"}' 
+```
+
+
 ## Issues
 
 Report bugs and feature requests
